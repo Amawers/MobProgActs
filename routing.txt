@@ -1,0 +1,71 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        debugShowCheckedModeBanner: false, home: InputDataScreen());
+  }
+}
+
+class InputDataScreen extends StatelessWidget {
+  var input = TextEditingController();
+  var formKey = GlobalKey<FormState>();
+
+  var data;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Inputting Data Screen"),
+      ),
+      body: Form(
+          key: formKey,
+          child: ListView(
+            padding: EdgeInsets.all(100),
+            children: [
+              const Text("Welcome, please input your name in the textfield."),
+              TextField(
+                controller: input,
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    data = input.text;
+                    input.clear();
+                  },
+                  child: const Text("Submit")),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                DisplayDataScreen(input: data)));
+                  },
+                  child: const Text("See inputted data"))
+            ],
+          )),
+    );
+  }
+}
+
+class DisplayDataScreen extends StatelessWidget {
+  String? input;
+
+  DisplayDataScreen({super.key, this.input});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Display Data Screen"),
+      ),
+      body: Center(child: Text("The data you inputted is $input")),
+    );
+  }
+}
